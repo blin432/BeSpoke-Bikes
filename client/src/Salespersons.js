@@ -9,9 +9,20 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
+import { useInput } from '../src/customHooks/addSale';
 
 function SalesPersons() {
     const [salespersons, setSalespersons] = React.useState(null);
+    const { value: firstname, bind:bindFirstname, reset:resetFirstname} = useInput('');
+    const { value: lastname, bind: bindLastname, reset: resetLastname } = useInput('');
+    const { value: address, bind: bindAddress, reset: resetAddress } = useInput('');
+    const { value: phone, bind: bindPhone, reset: resetPhone } = useInput('');
+    const { value: startDate, bind: bindStartDate, reset: resetStartDate } = useInput('');
+    const { value: termDate, bind: bindTermDate, reset: resetTermDate} = useInput('');
+    const { value: manager, bind: bindManager, reset: resetManager } = useInput('');
+
+
+   
     
     //fetch data
     useEffect(() => {
@@ -23,7 +34,6 @@ function SalesPersons() {
           }
            );
     }, []);
-
 
     //function to map all values to the table
     const renderBody = () => {
@@ -41,22 +51,67 @@ function SalesPersons() {
             )
         })
     }
-    
+
+   //once form is submitted create sale
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        //create sale endpoint
+        fetch('http://localhost:3001/salespersons/update', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstname: firstname,
+                lastname: lastname,
+                address: address,
+                phone: phone,
+                startDate: startDate,
+                termDate: termDate,
+                manager: manager
+
+
+            }),
+            })
+            .then((res) => {
+               fetch("http://localhost:3001/salespersons")
+                .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        setSalespersons(data)
+                    }
+                ); 
+            })
+            .catch((err) => console.log('error'))
+    }    
 
   return (
     <div >
           <div>
               {/* need to create own component for forms */}
-            <Form>
+            <Form onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="2">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindFirstname}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="firstname"
+                    />
+                    </Col>
+                    <Col xs="2">
+                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
+                        Name
+                    </Form.Label>
+                        <Form.Control
+                        type="text" {...bindLastname}
+                        className="mb-2"
+                        id="inlineFormInput"
+                        placeholder="Lastname"
                     />
                     </Col>
                     <Col xs="2">
@@ -64,63 +119,58 @@ function SalesPersons() {
                         Name
                     </Form.Label>
                     <Form.Control
+                        type="text" {...bindAddress}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
-                    />
-                    </Col>
-                    <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
-                    </Form.Label>
-                    <Form.Control
-                        className="mb-2"
-                        id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="address"
                     />
                     </Col>
                     <Col xs="1">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Phone Number
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindPhone}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="123-123-1234"
+                        placeholder="phone"
                     />
                     </Col>
                     <Col xs="2">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindStartDate}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="Start Date"
                     />
                     </Col>
                     <Col xs="2">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindTermDate}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="Termination Date"
                     />
                     </Col>
                     <Col xs="1">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindManager}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="manager"
                     />
                     </Col>
                     <Col xs="auto">
-                    <Button type="submit" className="mb-2">
+                    <Button type="submit" value= 'Submit' className="mb-2">
                         Submit
                     </Button>
                     </Col>

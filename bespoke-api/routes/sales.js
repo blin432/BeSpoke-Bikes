@@ -24,13 +24,11 @@ router.post('/sale', function (req, res, next) {
     var customer = req.body.customer;
     var salesDate = parseInt(req.body.salesDate);
 
-    console.log(salesDate);
 
-
-    db.one('INSERT INTO sales(product, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING id', [product,salesperson,customer,salesDate])
-        .then(() => {
-            console.log("SUCCESFULLY CREATED USER"); // print new user id;
-            res.send('success')
+    db.one('INSERT INTO sales(product, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING  id,product, salesperson, customer, salesDate', [product,salesperson,customer,salesDate])
+        .then((data) => {
+            console.log("SUCCESFULLY CREATED SALE"); // print new user id;
+            res.json(data);
         })
         .catch(function (error) {
             console.log('ERROR:', error); // print error;

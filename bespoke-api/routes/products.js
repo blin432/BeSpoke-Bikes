@@ -6,7 +6,6 @@ var db = require('../db');
 router.get('/', function (req, res, next) {
     db.any('SELECT * FROM products')
         .then(function (data) {
-            console.log('data is here', data);
             // success;
             res.json(data);
         })
@@ -14,6 +13,40 @@ router.get('/', function (req, res, next) {
             console.log('eeror', error);
             res.status(400).send(error)
         });
+});
+
+
+//update a salesperson
+router.put('/update', function (req, res, next) {
+    var name = req.body.name;
+    var manufacturer = req.body.manufacturer
+    var style = req.body.style;
+    var purchaseprice = req.body.purchPrice;
+    var saleprice = parseInt(req.body.saleprice);
+    var qtyhand = parseInt(req.body.qty);
+    var commperc = parseInt(req.body.commperc);
+
+
+
+    //check if the unique salesperson exists
+    db.any('SELECT * FROM products WHERE name = $1 ', [name])
+        .then(function (data) {
+            console.log(data);
+            if (data.length !== 1) {
+                // user does not exists!
+                res.status(400).send({error: "USER DOES NOT EXISTS"});
+            } else {
+                db.any('UPDATE products SET manufacturer = $1, style = $2, purchaseprice = $3, saleprice = $4, qtyhand= $5, commperc = $6 WHERE name = $7 ', [manufacturer, style, purchaseprice, saleprice, qtyhand ,commperc, name])
+                 .then(function (data) {
+                    // success;
+                    res.json(data);
+                })
+                .catch(function (error) {
+                    console.log('eeror', error);
+                    res.status(400).send(error)
+                });
+            }    
+        })
 });
 
 

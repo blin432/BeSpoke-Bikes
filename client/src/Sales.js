@@ -25,7 +25,6 @@ function Sales() {
         fetch("http://localhost:3001/sales")
       .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             setSales(data)
           }
            );
@@ -63,8 +62,12 @@ function Sales() {
             }),
             })
             .then((res) => res.json())
+            .then((data) => {
+                setSales([...sales,data])
+                }
+            )
             .catch((err) => console.log('error'))
-        }
+    }
 
   return (
     <div >

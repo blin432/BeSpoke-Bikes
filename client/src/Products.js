@@ -9,18 +9,25 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
+import { useInput } from '../src/customHooks/addSale';
 
 
 function Products() {
     const [products, setProducts] = React.useState(null);
+    const { value: name, bind:bindName, reset:resetName} = useInput('');
+    const { value: manufacturer, bind: bindManufacturer, reset: resetManufacturer } = useInput('');
+    const { value: style, bind: bindStyle, reset: resetStyle } = useInput('');
+    const { value: purchasePrice, bind: bindPurchacePrice, reset: resetPurchasePrice} = useInput('');
+    const { value: salePrice, bind: bindSalePrice, reset: resetSalePrice} = useInput('');
+    const { value: qty, bind: bindQty, reset: resetQty} = useInput('');
+    const { value: commPerc, bind: bindCommPerc, reset: resetCommPerc } = useInput('');
     
     //fetching data
     useEffect(() => {
         fetch("http://localhost:3001/products")
       .then((res) => res.json())
             .then((data) => {
-                console.log(data);
-            setProducts(data)
+                setProducts(data)
           }
            );
     }, []);
@@ -43,17 +50,51 @@ function Products() {
         })
     }
 
+//once form is submitted create sale
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        //create sale endpoint
+        fetch('http://localhost:3001/products/update', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                manufacturer: manufacturer,
+                style: style,
+                purchPrice: purchasePrice,
+                saleprice: salePrice,
+                qty: qty,
+                commperc: commPerc
+
+
+            }),
+            })
+            .then((res) => {
+               fetch("http://localhost:3001/products")
+                .then((res) => res.json())
+                    .then((data) => {
+                        setProducts(data)
+                    }
+                ); 
+            })
+            .catch((err) => console.log('error'))
+    }    
+
   return (
     <div >
           <div>
             {/* need to make another component for forms */}
-            <Form>
+            <Form  onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="2">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindName}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
@@ -63,7 +104,8 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindManufacturer}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
@@ -73,7 +115,8 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindStyle}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
@@ -83,7 +126,8 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Phone Number
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindPurchacePrice}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="123-123-1234"
@@ -93,7 +137,8 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindSalePrice}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
@@ -103,7 +148,8 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindQty}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
@@ -113,14 +159,15 @@ function Products() {
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
                     </Form.Label>
-                    <Form.Control
+                        <Form.Control
+                        type="text" {...bindCommPerc}
                         className="mb-2"
                         id="inlineFormInput"
                         placeholder="Jane Doe"
                     />
                     </Col>
                     <Col xs="auto">
-                    <Button type="submit" className="mb-2">
+                    <Button type="submit" value= 'Submit' className="mb-2">
                         Submit
                     </Button>
                     </Col>

@@ -7,7 +7,6 @@ router.get('/', function (req, res, next) {
   console.log('here',db.any);
     db.any('SELECT * FROM products')
         .then(function (data) {
-            console.log('data is here', data);
             // success;
             res.json(data);
         })
