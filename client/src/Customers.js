@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table'
 
 function Customers() {
-  const [customers, setCustomers] = React.useState(null);
+    const [customers, setCustomers] = React.useState(null);
+    
+    //fetching data
     useEffect(() => {
         fetch("http://localhost:3001/customers")
       .then((res) => res.json())
@@ -16,6 +18,7 @@ function Customers() {
            );
     }, []);
     
+    //function to map all values to the table
     const renderBody = () => {
         return customers && customers.map(({ address,firstname,id,lastname,phone,startdate }) => {
             return (

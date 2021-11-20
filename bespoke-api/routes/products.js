@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db');
 
-/* GET home page. */
+/* GET Products */
 router.get('/', function (req, res, next) {
     db.any('SELECT * FROM products')
         .then(function (data) {

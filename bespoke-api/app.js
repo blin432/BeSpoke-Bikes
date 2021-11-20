@@ -4,7 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+const bodyParser = require("body-parser");
+
+//set Port env
 const PORT = process.env.PORT || 3001;
+
+
+//set and require the route
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var salespersonsRouter = require('./routes/salespersons');
@@ -24,7 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+//specify the endpoints
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salespersons', salespersonsRouter);
