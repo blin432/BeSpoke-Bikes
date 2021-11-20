@@ -7,6 +7,10 @@ var cors = require("cors");
 const PORT = process.env.PORT || 3001;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var salespersonsRouter = require('./routes/salespersons');
+var productsRouter = require('./routes/products');
+var customersRouter = require('./routes/customers');
+var salesRouter = require('./routes/sales');
 
 var app = express();
 
@@ -23,15 +27,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
+app.use('/salespersons', salespersonsRouter);
+app.use('/products', productsRouter);
+app.use('/customers', customersRouter);
+app.use('/sales', salesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
