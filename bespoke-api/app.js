@@ -11,12 +11,13 @@ const PORT = process.env.PORT || 3001;
 
 
 //set and require the route
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/qsales');
 var salespersonsRouter = require('./routes/salespersons');
 var productsRouter = require('./routes/products');
 var customersRouter = require('./routes/customers');
 var salesRouter = require('./routes/sales');
+var qsalesRouter = require('./routes/qsales');
 
 var app = express();
 
@@ -34,12 +35,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //specify the endpoints
-app.use('/index', indexRouter);
+// app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salespersons', salespersonsRouter);
 app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
 app.use('/sales', salesRouter);
+app.use('/qsales', qsalesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

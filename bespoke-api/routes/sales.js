@@ -5,7 +5,7 @@ var db = require('../db');
 /* GET sales */
 // join tables to get data from all three tables to create sale table
 router.get('/', function (req, res, next) {
-    db.any('SELECT sales.id, products.name, customers.firstname AS customerfirst, customers.lastname AS customerlast, salesdate, products.purchaseprice, salespersons.firstname AS salespersonfirst, salespersons.lastname AS salespersonlast, products.commperc FROM sales JOIN products ON sales.products = products.id JOIN salespersons ON sales.salesperson = salespersons.id JOIN customers ON sales.customer = customers.id')
+    db.any('SELECT sales.id, products.name, customers.firstname AS customerfirst, customers.lastname AS customerlast, salesdate, products.saleprice, salespersons.firstname AS salespersonfirst, salespersons.lastname AS salespersonlast, products.commperc FROM sales JOIN products ON sales.products = products.id JOIN salespersons ON sales.salesperson = salespersons.id JOIN customers ON sales.customer = customers.id')
         .then(function (data) {
             console.log('data is here', data);
             // success;
@@ -25,7 +25,7 @@ router.post('/sale', function (req, res, next) {
     var salesDate = req.body.salesDate;
 
 
-    db.one('INSERT INTO sales(products, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING  id, products, salesperson, customer, salesDate', [product,salesperson,customer,salesDate])
+    db.one('INSERT INTO sales(products, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING  id, products, saleperson, customer, salesDate', [product,salesperson,customer,salesDate])
         .then((data) => {
             console.log("SUCCESFULLY CREATED SALE"); // print new user id;
             res.json(data);
@@ -42,7 +42,7 @@ router.get('/filterByDate/:date', function (req, res, next) {
     var filterdate = req.params.date;
 
     //filter by date after joining all tables and selecting data, filter by WHERE = filterdate
-    db.any('SELECT sales.id, products.name, customers.firstname AS customerfirst, customers.lastname AS customerlast, salesdate, products.purchaseprice, salespersons.firstname AS salespersonfirst, salespersons.lastname AS salespersonlast, products.commperc FROM sales JOIN products ON sales.products = products.id JOIN salespersons ON sales.salesperson = salespersons.id JOIN customers ON sales.customer = customers.id WHERE salesdate = $1',[filterdate])
+    db.any('SELECT sales.id, products.name, customers.firstname AS customerfirst, customers.lastname AS customerlast, salesdate, products.saleprice, salespersons.firstname AS salespersonfirst, salespersons.lastname AS salespersonlast, products.commperc FROM sales JOIN products ON sales.products = products.id JOIN salespersons ON sales.salesperson = salespersons.id JOIN customers ON sales.customer = customers.id WHERE salesdate = $1',[filterdate])
         .then((data) => {
             //send back sales by filtered by date
             res.json(data);
