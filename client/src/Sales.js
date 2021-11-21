@@ -19,6 +19,7 @@ function Sales() {
     const { value: salesperson, bind: bindSalesperson, reset: resetSalesperson } = useInput('');
     const { value: customer, bind: bindCustomer, reset: resetCustomer } = useInput('');
     const { value: salesDate, bind: bindSalesDate, reset: resetSalesDate } = useInput('');
+    const { value: filterdate, bind: bindFilter, reset: resetFilter } = useInput('');
     
     //fetching data
     useEffect(() => {
@@ -32,13 +33,17 @@ function Sales() {
 
     //function to map all values to the table
     const renderBody = () => {
-        return sales && sales.map(({ customer, id, product, salesdate, salesperson }) => {
+        return sales && sales.map(({ id, name,customerfirst , customerlast,salesdate, purchaseprice, salespersonfirst,salespersonlast,commperc }) => {
             return (
                 <tr key={id}>
-                    <td>{product}</td>
-                    <td>{salesperson}</td>
-                    <td>{customer}</td>
+                    <td>{name}</td>
+                    <td>{customerfirst}</td>
+                    <td>{customerlast}</td>
                     <td>{salesdate}</td>
+                    <td>{purchaseprice}</td>
+                    <td>{salespersonfirst}</td>
+                    <td>{salespersonlast}</td>
+                    <td>{commperc}</td>
                 </tr>
             )
         })
@@ -47,7 +52,6 @@ function Sales() {
    //once form is submitted create sale
     const handleSubmit = (evt) => {
         evt.preventDefault();
-
         //create sale endpoint
         fetch('http://localhost:3001/sales/sale', {
             method: 'POST',
@@ -61,24 +65,41 @@ function Sales() {
                 salesDate,
             }),
             })
-            .then((res) => res.json())
-            .then((data) => {
-                setSales([...sales,data])
-                }
-            )
+            .then((res) => {
+               fetch("http://localhost:3001/sales")
+                .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        setSales(data)
+                    }
+                ); 
+            })
             .catch((err) => console.log('error'))
+    }
+
+   //filter by date
+    const handleFilter = (evt) => {
+        evt.preventDefault();
+        //create sale endpoint
+        fetch(`http://localhost:3001/sales/filterByDate/${filterdate}`)
+      .then((res) => res.json())
+          .then((data) => {
+            setSales(data)
+          }
+           );
     }
 
   return (
     <div >
         <div>
               {/* need to make component for form */}
+            {/* creating sale by using id of each table */}
             <Form onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="3">
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
                         Name
-                          </Form.Label>
+                    </Form.Label>
                     <Form.Control
                         type="text" {...bindProduct}
                         className="mb-2"
@@ -125,7 +146,28 @@ function Sales() {
                     </Button>
                     </Col>
                 </Row>
-            </Form> 
+              </Form>
+            <Form onSubmit ={handleFilter}>
+                <Row className="align-items-center">
+                    <Col xs="3">
+                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
+                        Name
+                    </Form.Label>
+                    <Form.Control
+                        type="text" {...bindFilter}
+                        className="mb-2"
+                        id="inlineFormInput"
+                        placeholder="Product"
+                    />
+                    </Col>
+                    <Col xs="auto">
+                    <Button type="submit" value= 'Submit' className="mb-2">
+                        FilterByDate
+                    </Button>
+                    </Col>
+                </Row>
+            </Form>
+             
         <Table striped bordered hover>
              <thead>
                 <tr>
@@ -134,10 +176,15 @@ function Sales() {
             </thead>   
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Salesperson</th>
-                    <th>Customers</th>
-                    <th>SalesDate</th>
+                    <th>ProductName</th>
+                    <th>Customer first</th>
+                    <th>Customer last</th>
+                    <th>Salesdate</th>
+                    <th>purchaseprice</th>
+                    <th>salespersonfirst</th>
+                    <th>salespersonlast</th>
+                    <th>commperc</th>      
+                    
                 </tr>
             </thead>
             <tbody>

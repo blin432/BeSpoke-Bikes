@@ -33,11 +33,12 @@ function Products() {
     }, []);
     
 
-//function to map all values to the table
+    //function to map all values to the table added id for idenitifcation
     const renderBody = () => {
         return products && products.map(({ commPerc, id, manufacturer, name, purchPrice, qtyHand,salePrice, style }) => {
             return (
                 <tr key={id}>
+                    <td>{id}</td>
                     <td>{name}</td>
                     <td>{manufacturer}</td>
                     <td>{style}</td>
@@ -181,6 +182,7 @@ function Products() {
             </thead>           
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Name</th>
                     <th>Manufactureer</th>
                     <th>Style</th>

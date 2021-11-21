@@ -18,11 +18,12 @@ function Customers() {
            );
     }, []);
     
-    //function to map all values to the table
+    //function to map all values to the table added id for idenitifcation
     const renderBody = () => {
         return customers && customers.map(({ address,firstname,id,lastname,phone,startdate }) => {
             return (
                 <tr key={id}>
+                    <td>{id}</td>
                     <td>{firstname}</td>
                     <td>{lastname}</td>
                     <td>{address}</td>
@@ -43,6 +44,7 @@ function Customers() {
             </thead>   
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Address</th>

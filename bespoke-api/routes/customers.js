@@ -6,7 +6,6 @@ var db = require('../db');
 router.get('/', function (req, res, next) {
     db.any('SELECT * FROM customers')
         .then(function (data) {
-            console.log('data is here', data);
             // success;
             res.json(data);
         })

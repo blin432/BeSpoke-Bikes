@@ -35,11 +35,12 @@ function SalesPersons() {
            );
     }, []);
 
-    //function to map all values to the table
+    //function to map all values to the table added id for idenitifcation
     const renderBody = () => {
         return salespersons && salespersons.map(({ address, firstname, id, lastname, manager, phone, startdate, termdate }) => {
             return (
                 <tr key={id}>
+                    <td>{id}</td>
                     <td>{firstname}</td>
                     <td>{lastname}</td>
                     <td>{address}</td>
@@ -184,6 +185,7 @@ function SalesPersons() {
             </thead>     
             <thead>
                 <tr>
+                    <th>id</th>      
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Address</th>

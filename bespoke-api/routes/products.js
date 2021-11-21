@@ -36,6 +36,7 @@ router.put('/update', function (req, res, next) {
                 // user does not exists!
                 res.status(400).send({error: "USER DOES NOT EXISTS"});
             } else {
+                //if it does exist update
                 db.any('UPDATE products SET manufacturer = $1, style = $2, purchaseprice = $3, saleprice = $4, qtyhand= $5, commperc = $6 WHERE name = $7 ', [manufacturer, style, purchaseprice, saleprice, qtyhand ,commperc, name])
                  .then(function (data) {
                     // success;
