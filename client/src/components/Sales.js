@@ -109,7 +109,7 @@ function Sales() {
                         type="text" {...bindProduct}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Product"
+                        placeholder="Integer"
                     />
                     </Col>
                     <Col xs="3">
@@ -120,7 +120,7 @@ function Sales() {
                         type="text" {...bindSalesperson}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Salesperson"
+                        placeholder="Integer"
                     />
                     </Col>
                     <Col xs="3">
@@ -131,7 +131,7 @@ function Sales() {
                         type="text" {...bindCustomer}      
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Customer"
+                        placeholder="Integer"
                     />
                     </Col>
                     <Col xs="3">
@@ -142,7 +142,7 @@ function Sales() {
                         type="text" {...bindSalesDate}             
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="SalesDate"
+                        placeholder="01-01-2021"
                     />
                     </Col>
                     <Col xs="auto">
@@ -176,7 +176,7 @@ function Sales() {
         <Table striped bordered hover>
              <thead>
                 <tr>
-                    <th colSpan="5">Sale</th>
+                    <th colSpan="5">Sales</th>
                 </tr>
             </thead>   
             <thead>

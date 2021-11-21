@@ -44,7 +44,7 @@ function Quarterlysales() {
         <Table striped bordered hover>
              <thead>
                 <tr>
-                    <th colSpan="5">Quaterly Sales</th>
+                    <th colSpan="5">Quarterly Sales</th>
                 </tr>
             </thead>   
             <thead>

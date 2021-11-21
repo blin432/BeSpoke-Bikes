@@ -142,7 +142,7 @@ function SalesPersons() {
                         type="text" {...bindPhone}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="phone"
+                        placeholder="numeric"
                     />
                     </Col>
                     <Col xs="2">
@@ -153,7 +153,7 @@ function SalesPersons() {
                         type="text" {...bindStartDate}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Start Date"
+                        placeholder="01-01-2021"
                     />
                     </Col>
                     <Col xs="2">
@@ -164,7 +164,7 @@ function SalesPersons() {
                         type="text" {...bindTermDate}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Termination Date"
+                        placeholder="01-01-2021"
                     />
                     </Col>
                     <Col xs="1">

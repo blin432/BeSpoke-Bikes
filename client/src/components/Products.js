@@ -175,7 +175,7 @@ function Products() {
                         type="text" {...bindCommPerc}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="commPerc"
+                        placeholder=".10"
                     />
                     </Col>
                     <Col xs="auto">
