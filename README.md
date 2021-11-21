@@ -20,6 +20,10 @@ About the application
 - On top of salespersons and products there are input fields to edit their respective tables.  First and last name of salesperson must exist to edit, and product name must exist to edit.
 - On top of sales there are input fields to add a sale, and also an input field to filter by date.
 
+Preview of sales table
+(there is a john smith customer and salesperson)
+
+![image](https://user-images.githubusercontent.com/43364244/142774078-b3f9fb0b-50c8-4715-aab9-1a62a947ddf2.png)
 
 Hope you enjoy!
 
