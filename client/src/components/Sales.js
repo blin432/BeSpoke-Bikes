@@ -1,20 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 import React from "react";
 import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import { useInput } from '../src/customHooks/addSale';
+import { useInput } from '../customHooks/addSale';
 
 function Sales() {
 
     //state management
-    const [sales, setSales] = React.useState(null);
+    const [sales, setSales] = useState(null);
     const { value:product, bind:bindProduct, reset:resetProduct } = useInput('');
     const { value: salesperson, bind: bindSalesperson, reset: resetSalesperson } = useInput('');
     const { value: customer, bind: bindCustomer, reset: resetCustomer } = useInput('');
@@ -33,14 +30,14 @@ function Sales() {
 
     //function to map all values to the table
     const renderBody = () => {
-        return sales && sales.map(({ id, name,customerfirst , customerlast,salesdate, purchaseprice, salespersonfirst,salespersonlast,commperc }) => {
+        return sales && sales.map(({ id, name,customerfirst , customerlast,salesdate, saleprice, salespersonfirst,salespersonlast,commperc }) => {
             return (
                 <tr key={id}>
                     <td>{name}</td>
                     <td>{customerfirst}</td>
                     <td>{customerlast}</td>
                     <td>{salesdate}</td>
-                    <td>{purchaseprice}</td>
+                    <td>{saleprice}</td>
                     <td>{salespersonfirst}</td>
                     <td>{salespersonlast}</td>
                     <td>{commperc}</td>
@@ -70,7 +67,11 @@ function Sales() {
                 .then((res) => res.json())
                     .then((data) => {
                         console.log(data);
-                        setSales(data)
+                        setSales(data);
+                        resetProduct();
+                        resetSalesperson();
+                        resetCustomer();
+                        resetSalesDate();
                     }
                 ); 
             })
@@ -84,21 +85,25 @@ function Sales() {
         fetch(`http://localhost:3001/sales/filterByDate/${filterdate}`)
       .then((res) => res.json())
           .then((data) => {
-            setSales(data)
+              setSales(data);
+              resetFilter();
           }
            );
     }
 
   return (
-    <div >
+      <div >
+          <div className="table-headers">
+              Update Sales
+          </div>
         <div>
-              {/* need to make component for form */}
+            {/* need to make another component for forms and map the form fields */}
             {/* creating sale by using id of each table */}
             <Form onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="3">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Product
                     </Form.Label>
                     <Form.Control
                         type="text" {...bindProduct}
@@ -108,8 +113,8 @@ function Sales() {
                     />
                     </Col>
                     <Col xs="3">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Salesperson
                     </Form.Label>
                     <Form.Control
                         type="text" {...bindSalesperson}
@@ -119,8 +124,8 @@ function Sales() {
                     />
                     </Col>
                     <Col xs="3">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Customer
                     </Form.Label>
                     <Form.Control
                         type="text" {...bindCustomer}      
@@ -130,8 +135,8 @@ function Sales() {
                     />
                     </Col>
                     <Col xs="3">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Phone Number
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Sales Date
                     </Form.Label>
                     <Form.Control
                         type="text" {...bindSalesDate}             
@@ -147,21 +152,21 @@ function Sales() {
                     </Col>
                 </Row>
               </Form>
-            <Form onSubmit ={handleFilter}>
+              <div className="table-headers">
+                  FilterDate
+              </div>
+            <Form onSubmit ={handleFilter} >
                 <Row className="align-items-center">
                     <Col xs="3">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
-                    </Form.Label>
                     <Form.Control
                         type="text" {...bindFilter}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Product"
+                        placeholder="01-22-2021"
                     />
                     </Col>
-                    <Col xs="auto">
-                    <Button type="submit" value= 'Submit' className="mb-2">
+                    <Col xs="2">
+                    <Button type="submit" value= 'Submit' className = "mb-2" >
                         FilterByDate
                     </Button>
                     </Col>
@@ -180,7 +185,7 @@ function Sales() {
                     <th>Customer first</th>
                     <th>Customer last</th>
                     <th>Salesdate</th>
-                    <th>purchaseprice</th>
+                    <th>saleprice</th>
                     <th>salespersonfirst</th>
                     <th>salespersonlast</th>
                     <th>commperc</th>      

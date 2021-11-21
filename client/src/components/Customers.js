@@ -1,11 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 import React from "react";
 import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table'
 
 function Customers() {
-    const [customers, setCustomers] = React.useState(null);
+    const [customers, setCustomers] = useState(null);
     
     //fetching data
     useEffect(() => {

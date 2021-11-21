@@ -24,7 +24,8 @@ router.put('/update', function (req, res, next) {
     var purchaseprice = req.body.purchPrice;
     var saleprice = parseInt(req.body.saleprice);
     var qtyhand = parseInt(req.body.qty);
-    var commperc = parseInt(req.body.commperc);
+    var commperc = parseFloat(req.body.commperc);
+    console.log('comm',commperc);
 
 
 
@@ -33,7 +34,8 @@ router.put('/update', function (req, res, next) {
         .then(function (data) {
             console.log(data);
             if (data.length !== 1) {
-                // user does not exists!
+                // product does not exists!
+                res.send({ message: 'product does not exist' })
                 res.status(400).send({error: "USER DOES NOT EXISTS"});
             } else {
                 //if it does exist update

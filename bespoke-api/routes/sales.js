@@ -25,7 +25,7 @@ router.post('/sale', function (req, res, next) {
     var salesDate = req.body.salesDate;
 
 
-    db.one('INSERT INTO sales(products, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING  id, products, saleperson, customer, salesDate', [product,salesperson,customer,salesDate])
+    db.one('INSERT INTO sales(products, salesperson,customer,salesDate) VALUES($1, $2, $3, $4) RETURNING  id, products, salesperson, customer, salesDate', [product,salesperson,customer,salesDate])
         .then((data) => {
             console.log("SUCCESFULLY CREATED SALE"); // print new user id;
             res.json(data);

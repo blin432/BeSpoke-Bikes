@@ -1,19 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 import React from "react";
 import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import { useInput } from '../src/customHooks/addSale';
+import { useInput } from '../customHooks/addSale';
 
 
 function Products() {
-    const [products, setProducts] = React.useState(null);
+    const [products, setProducts] = useState(null);
     const { value: name, bind:bindName, reset:resetName} = useInput('');
     const { value: manufacturer, bind: bindManufacturer, reset: resetManufacturer } = useInput('');
     const { value: style, bind: bindStyle, reset: resetStyle } = useInput('');
@@ -27,6 +24,7 @@ function Products() {
         fetch("http://localhost:3001/products")
       .then((res) => res.json())
             .then((data) => {
+                console.log('products',data);
                 setProducts(data)
           }
            );
@@ -35,17 +33,17 @@ function Products() {
 
     //function to map all values to the table added id for idenitifcation
     const renderBody = () => {
-        return products && products.map(({ commPerc, id, manufacturer, name, purchPrice, qtyHand,salePrice, style }) => {
+        return products && products.map(({ commperc, id, manufacturer, name, purchaseprice, qtyhand,saleprice, style }) => {
             return (
                 <tr key={id}>
                     <td>{id}</td>
                     <td>{name}</td>
                     <td>{manufacturer}</td>
                     <td>{style}</td>
-                    <td>{purchPrice}</td>
-                    <td>{salePrice}</td>
-                    <td>{qtyHand}</td>
-                    <td>{commPerc}</td>
+                    <td>{purchaseprice}</td>
+                    <td>{saleprice}</td>
+                    <td>{qtyhand}</td>
+                    <td>{commperc}</td>
                 </tr>
             )
         })
@@ -55,7 +53,7 @@ function Products() {
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
-        //create sale endpoint
+        //create product endpoint, if product does not exist alert message
         fetch('http://localhost:3001/products/update', {
             method: 'PUT',
             headers: {
@@ -69,102 +67,115 @@ function Products() {
                 saleprice: salePrice,
                 qty: qty,
                 commperc: commPerc
-
-
             }),
+            }).then((res) =>res.json()).then((data) => {
+                alert(data.message);
             })
-            .then((res) => {
+            .then(() => {
                fetch("http://localhost:3001/products")
                 .then((res) => res.json())
-                    .then((data) => {
-                        setProducts(data)
+                   .then((data) => {
+                        setProducts(data);
+                        resetName();
+                        resetManufacturer();
+                        resetStyle();
+                        resetPurchasePrice();
+                        resetSalePrice();
+                        resetQty();
+                        resetCommPerc();
                     }
                 ); 
             })
-            .catch((err) => console.log('error'))
+            .catch((err) => {
+               console.log('error',err) 
+            } )
+        
     }    
 
   return (
-    <div >
+      <div >
+          <div className="table-headers">
+              Update Products
+          </div>
           <div>
-            {/* need to make another component for forms */}
+            {/* need to make another component for forms and map the form fields */}
             <Form  onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
+                    <Form.Label htmlFor="inlineFormInput" >
                         Name
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindName}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="Name"
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Manufacturer
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindManufacturer}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="manufacturer"
                     />
                     </Col>
-                    <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Col xs="1">
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Style
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindStyle}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="style"
                     />
                     </Col>
-                    <Col xs="1">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Phone Number
+                    <Col xs="2">
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Purchase Price
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindPurchacePrice}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="123-123-1234"
+                        placeholder="purchaseprice"
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Sales Price
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindSalePrice}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="salePrice"
                     />
                     </Col>
-                    <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Col xs="1">
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Qty
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindQty}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="QTY"
                     />
                     </Col>
-                    <Col xs="1">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Col xs="2">
+                    <Form.Label htmlFor="inlineFormInput" >
+                        CommPerc
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindCommPerc}
                         className="mb-2"
                         id="inlineFormInput"
-                        placeholder="Jane Doe"
+                        placeholder="commPerc"
                     />
                     </Col>
                     <Col xs="auto">

@@ -30,7 +30,8 @@ router.put('/update', function (req, res, next) {
         .then(function (data) {
             console.log(data);
             if (data.length !== 1) {
-                // user does not exists!
+                // salesperson does not exists!
+                res.send({ message: 'saleperson does not exist' })
                 res.status(400).send({error: "USER DOES NOT EXISTS"});
             } else {
                 //if it does exist update

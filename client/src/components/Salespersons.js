@@ -1,18 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 import React from "react";
 import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import { useInput } from '../src/customHooks/addSale';
+import { useInput } from '../customHooks/addSale';
 
 function SalesPersons() {
-    const [salespersons, setSalespersons] = React.useState(null);
+    const [salespersons, setSalespersons] = useState(null);
     const { value: firstname, bind:bindFirstname, reset:resetFirstname} = useInput('');
     const { value: lastname, bind: bindLastname, reset: resetLastname } = useInput('');
     const { value: address, bind: bindAddress, reset: resetAddress } = useInput('');
@@ -29,7 +26,7 @@ function SalesPersons() {
         fetch("http://localhost:3001/salespersons")
       .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            console.log('salesperson',data);
             setSalespersons(data)
           }
            );
@@ -57,7 +54,8 @@ function SalesPersons() {
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
-        //create sale endpoint
+        //update salesperson endpoint, is salesperson does not exist alert message
+        //both first name and last name have to exist
         fetch('http://localhost:3001/salespersons/update', {
             method: 'PUT',
             headers: {
@@ -71,16 +69,23 @@ function SalesPersons() {
                 startDate: startDate,
                 termDate: termDate,
                 manager: manager
-
-
             }),
+            }).then((res) =>res.json()).then((data) => {
+                alert(data.message);
             })
-            .then((res) => {
+            .then(() => {
                fetch("http://localhost:3001/salespersons")
                 .then((res) => res.json())
                     .then((data) => {
                         console.log(data);
-                        setSalespersons(data)
+                        setSalespersons(data);
+                        resetFirstname();
+                        resetLastname();
+                        resetAddress();
+                        resetPhone();
+                        resetStartDate();
+                        resetTermDate();
+                        resetManager();
                     }
                 ); 
             })
@@ -88,14 +93,17 @@ function SalesPersons() {
     }    
 
   return (
-    <div >
+      <div >
+          <div className="table-headers">
+              Update Salespersons
+          </div>
           <div>
-              {/* need to create own component for forms */}
+            {/* need to make another component for forms and map the form fields */}
             <Form onSubmit ={handleSubmit}>
                 <Row className="align-items-center">
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Firstname
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindFirstname}
@@ -105,8 +113,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Lastname
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindLastname}
@@ -116,8 +124,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Address
                     </Form.Label>
                     <Form.Control
                         type="text" {...bindAddress}
@@ -127,8 +135,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="1">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Phone Number
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Phone
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindPhone}
@@ -138,8 +146,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Start Date
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindStartDate}
@@ -149,8 +157,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="2">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Termination Date
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindTermDate}
@@ -160,8 +168,8 @@ function SalesPersons() {
                     />
                     </Col>
                     <Col xs="1">
-                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-                        Name
+                    <Form.Label htmlFor="inlineFormInput" >
+                        Manager
                     </Form.Label>
                         <Form.Control
                         type="text" {...bindManager}

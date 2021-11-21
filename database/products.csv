@@ -1,0 +1,6 @@
+"xmin","id","name","manufacturer","style","purchaseprice","saleprice","qtyhand","commperc"
+"597",1,"bike1","giant","mountain","100",150,2,0.1
+"605",2,"bike2","giant","mountain","70",100,2,0
+"597",3,"bike3","kona","road","70",100,1,0.2
+"606",4,"bike4","giant","road","40",80,1,0.5
+"597",5,"bike5","giant","road","60",90,4,0.1

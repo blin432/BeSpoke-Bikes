@@ -1,0 +1,6 @@
+"xmin","id","firstname","lastname","address","manager","termdate","startdate","phone"
+"607",1,"john","smith","234 state streeet","bob","2021-01-22","2021-01-22",1234567
+"596",2,"cathy","lee","234 north street","lisa","2021-03-02","2021-01-01",1234567
+"596",3,"kelly","martin","123. south streeet","bob","2021-03-02","2021-01-01",1234567
+"596",4,"john","snow","134 east streeet","lisa","2021-03-02","2021-01-01",1234567
+"596",5,"martin","johnson","231 east streeet","bob","2021-03-02","2021-01-01",1234567
